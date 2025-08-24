@@ -105,11 +105,24 @@ h1 {
     color: #fff;
     font-weight: 500;
 }
+.api-table td {
+    vertical-align: middle;
+}
 .api-table tr:last-child td {
     border-bottom: none;
 }
 .send-btn {
-    min-width: 100px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 10px 24px;
+    min-width: unset;      /* Remove fixed min-width */
+    width: auto;           /* Button width adapts to text */
+    gap: 1px;              /* Space between icon and text */
+    margin: 0 auto;
+    box-sizing: border-box;
+    white-space: nowrap;
 }
 .response {
     color: #2a5298;
@@ -125,4 +138,35 @@ textarea#jsonInput {
 pre#beautifiedOutput {
     font-family: 'Fira Mono', 'Consolas', monospace;
     font-size: 1rem;
+}
+
+.quote-options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px 0 0 0;
+}
+
+.quote-options-group label {
+    font-size: 1rem;
+    color: #2a5298;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #e0eafc;
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: background 0.2s;
+}
+
+.quote-options-group label:hover {
+    background: #cfdef3;
+}
+
+.quote-option {
+    accent-color: #2a5298;
+    width: 18px;
+    height: 18px;
 }

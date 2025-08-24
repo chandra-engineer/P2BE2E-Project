@@ -113,7 +113,9 @@ function opportunity(data) {
 }
 
 function quote(data) {
-    return 'Quote Success';
+    // Get selected quote options
+    const selected = Array.from(document.querySelectorAll('.quote-option:checked')).map(cb => cb.value);
+    return `Quote Success. Selected: ${selected.length ? selected.join(', ') : 'None'}`;
 }
 
 function groupNumberGeneration(data) {

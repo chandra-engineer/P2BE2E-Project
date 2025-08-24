@@ -146,6 +146,15 @@
             font-size: 1.1rem;
             letter-spacing: 1px;
         }
+        .quote-options-group {
+            margin-top: 8px;
+        }
+        .quote-options-group label {
+            display: block;
+            margin-bottom: 4px;
+            color: #2a5298;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -177,9 +186,23 @@
                     <td><span class="response" id="response-opportunity"></span></td>
                 </tr>
                 <tr>
-                    <td><i class="fa-solid fa-file-invoice-dollar"></i> Quote</td>
-                    <td><button class="button send-btn" data-action="quote"><i class="fa-solid fa-paper-plane"></i> Send Data</button></td>
-                    <td><span class="response" id="response-quote"></span></td>
+                    <td>
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Quote
+                        <div class="quote-options-group">
+                            <label><input type="checkbox" class="quote-option" value="Add Medical"> Add Medical</label>
+                            <label><input type="checkbox" class="quote-option" value="Add Dental"> Add Dental</label>
+                            <label><input type="checkbox" class="quote-option" value="Add Vision"> Add Vision</label>
+                            <label><input type="checkbox" class="quote-option" value="Add Speciality Products"> Add Speciality Products</label>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="button send-btn" data-action="quote">
+                            <i class="fa-solid fa-paper-plane"></i> Send Data
+                        </button>
+                    </td>
+                    <td>
+                        <span class="response" id="response-quote"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><i class="fa-solid fa-users"></i> Group Number Generation</td>
