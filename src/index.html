@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>P2B E2E DATA CONVERSION APPLICATION</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(42,82,152,0.10);
+            padding: 40px 32px 32px 32px;
+        }
+        h1 {
+            text-align: center;
+            color: #2a5298;
+            margin-bottom: 36px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(42,82,152,0.05);
+            padding: 24px 20px;
+            margin-bottom: 32px;
+        }
+        .file-label {
+            font-weight: 600;
+            color: #2a5298;
+            margin-bottom: 8px;
+            display: block;
+        }
+        input[type="file"] {
+            padding: 8px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #e0eafc;
+            background: #fff;
+        }
+        .button {
+            background: linear-gradient(90deg, #2a5298 0%, #1e3c72 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 22px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(42,82,152,0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .button:hover {
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 4px 16px rgba(42,82,152,0.12);
+        }
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            background: #f8fafc;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(42,82,152,0.04);
+        }
+        .api-table th, .api-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0eafc;
+        }
+        .api-table th {
+            background: #2a5298;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+        }
+        .api-table tr:last-child td {
+            border-bottom: none;
+        }
+        .send-btn {
+            min-width: 120px;
+            font-size: 1rem;
+        }
+        .response {
+            color: #2a5298;
+            font-size: 0.98rem;
+            font-style: italic;
+            word-break: break-all;
+        }
+        .card-beautifier {
+            background: #f8fafc;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(42,82,152,0.05);
+            padding: 24px 20px;
+            margin-top: 36px;
+        }
+        .card-beautifier h2 {
+            color: #2a5298;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        textarea#jsonInput {
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            border: 1px solid #e0eafc;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            width: 100%;
+            resize: vertical;
+            margin-bottom: 12px;
+            background: #fff;
+        }
+        pre#beautifiedOutput {
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1rem;
+            background: #e0eafc;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            white-space: pre-wrap;
+            color: #2a5298;
+            min-height: 40px;
+        }
+        .fa-solid {
+            margin-right: 8px;
+            color: #2a5298;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #2a5298;
+            font-weight: 500;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-file-arrow-up"></i> P2B E2E DATA CONVERSION APPLICATION</h1>
+        <div class="card">
+            <label for="fileInput" class="file-label"><i class="fa-solid fa-upload"></i> Upload File (CSV, Excel, TXT, JSON)</label>
+            <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.txt,.json">
+            <button id="uploadButton" class="button"><i class="fa-solid fa-arrow-right-arrow-left"></i> Upload & Convert</button>
+            <button id="downloadButton" class="button" style="display:none;"><i class="fa-solid fa-download"></i> Download JSON</button>
+        </div>
+        <table class="api-table">
+            <thead>
+                <tr>
+                    <th>API Action</th>
+                    <th>Send Data</th>
+                    <th>Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="fa-solid fa-user-plus"></i> Create Account</td>
+                    <td><button class="button send-btn" data-action="createAccount"><i class="fa-solid fa-paper-plane"></i> Send Data</button></td>
+                    <td><span class="response" id="response-createAccount"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-lightbulb"></i> Opportunity</td>
+                    <td><button class="button send-btn" data-action="opportunity"><i class="fa-solid fa-paper-plane"></i> Send Data</button></td>
+                    <td><span class="response" id="response-opportunity"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-file-invoice-dollar"></i> Quote</td>
+                    <td><button class="button send-btn" data-action="quote"><i class="fa-solid fa-paper-plane"></i> Send Data</button></td>
+                    <td><span class="response" id="response-quote"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-users"></i> Group Number Generation</td>
+                    <td><button class="button send-btn" data-action="groupNumber"><i class="fa-solid fa-paper-plane"></i> Send Data</button></td>
+                    <td><span class="response" id="response-groupNumber"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="card-beautifier">
+            <h2><i class="fa-solid fa-wand-magic-sparkles"></i> JSON Beautifier</h2>
+            <textarea id="jsonInput" rows="8" placeholder="Paste or type your JSON here..."></textarea>
+            <button id="beautifyButton" class="button"><i class="fa-solid fa-magic"></i> Beautify</button>
+            <pre id="beautifiedOutput"></pre>
+        </div>
+    </div>
+    <footer>
+        Designed by Chandra K
+    </footer>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
